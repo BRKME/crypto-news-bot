@@ -15,8 +15,8 @@ def parse_all_feeds():
     
     for source_name, config in RSS_SOURCES.items():
         try:
-            # Добавляем timeout для RSS парсинга (30 секунд)
-            feed = feedparser.parse(config['url'], timeout=30)
+            # Парсим RSS (feedparser не поддерживает timeout аргумент)
+            feed = feedparser.parse(config['url'])
             
             # Проверяем что feed валидный
             if hasattr(feed, 'bozo') and feed.bozo and not feed.entries:
