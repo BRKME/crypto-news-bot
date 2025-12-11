@@ -6,7 +6,29 @@ from datetime import datetime, timedelta
 import json
 import os
 import re
+import html
+from html.parser import HTMLParser
 from news_config import IMPORTANCE_RULES, EXCLUDE_KEYWORDS, MIN_IMPORTANCE_SCORE, RSS_SOURCES, SIMILARITY_THRESHOLD
+
+
+# HTML Stripper для очистки summary от тегов
+class MLStripper(HTMLParser):
+    """Удаляет HTML теги из текста"""
+    def __init__(self):
+        super().__init__()
+        self.reset()
+        self.strict = False
+        self.convert_charrefs = True
+        self.text = []
+    
+    def handle_data(self, d):
+        self.text.append(d)
+    
+    def get_data(self):
+        return ''.join(self.text)
+    
+    def clear(self):
+        self.text = []
 
 
 def parse_all_feeds():
@@ -46,9 +68,90 @@ def parse_all_feeds():
                     if not entry.title or not entry.title.strip():
                         continue
                     
+                    # Извлекаем summary (первый абзац)
+                    summary = ''
+                    if hasattr(entry, 'summary'):
+                        summary = entry.summary
+                    elif hasattr(entry, 'description'):
+                        summary = entry.description
+                    
+                    # Очищаем HTML теги из summary
+                    if summary:
+                        try:
+                            # Используем глобальный stripper
+                            stripper = MLStripper()
+                            stripper.feed(summary)
+                            summary = stripper.get_data().strip()
+                        except Exception as e:
+                            # Fallback - простое удаление тегов regex
+                            summary = re.sub(r'<[^>]+>', '', summary).strip()
+                        
+                        # Нормализуем переносы строк
+                        summary = re.sub(r'\n+', ' ', summary)
+                        summary = re.sub(r'\s+', ' ', summary)
+                        
+                        # Обрезаем до первого абзаца или первых предложений
+                        if '. ' in summary and len(summary) > 150:
+                            # Берем первые 2 предложения
+                            sentences = summary.split('. ')
+                            if len(sentences) >= 2:
+                                summary = '. '.join(sentences[:2]) + '.'
+                            elif sentences and sentences[0]:
+                                summary = sentences[0]
+                                if not summary.endswith('.'):
+                                    summary += '...'
+                        
+                        # Ограничиваем длину
+                        if len(summary) > 300:
+                            summary = summary[:297] + '...'
+                    
+                    # Извлекаем URL картинки
+                    image_url = None
+                    
+                    # Вариант 1: media_content (CoinDesk, The Block)
+                    if (hasattr(entry, 'media_content') and 
+                        isinstance(entry.media_content, list) and 
+                        entry.media_content and
+                        isinstance(entry.media_content[0], dict)):
+                        image_url = entry.media_content[0].get('url')
+                    
+                    # Вариант 2: media_thumbnail
+                    if (not image_url and 
+                        hasattr(entry, 'media_thumbnail') and 
+                        isinstance(entry.media_thumbnail, list) and
+                        entry.media_thumbnail and
+                        isinstance(entry.media_thumbnail[0], dict)):
+                        image_url = entry.media_thumbnail[0].get('url')
+                    
+                    # Вариант 3: enclosure
+                    if not image_url and hasattr(entry, 'enclosures') and isinstance(entry.enclosures, list):
+                        for enclosure in entry.enclosures:
+                            if isinstance(enclosure, dict) and enclosure.get('type', '').startswith('image/'):
+                                image_url = enclosure.get('href')
+                                break
+                    
+                    # Вариант 4: парсим из content/summary HTML
+                    if not image_url and hasattr(entry, 'content') and isinstance(entry.content, list):
+                        try:
+                            content_html = entry.content[0].get('value', '') if isinstance(entry.content[0], dict) else ''
+                            # Более гибкий regex - ловит single и double quotes
+                            img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content_html, re.IGNORECASE)
+                            if img_match:
+                                image_url = img_match.group(1)
+                        except (IndexError, AttributeError, TypeError):
+                            pass
+                    
+                    # Валидация URL - только http/https
+                    if image_url:
+                        image_url = image_url.strip()
+                        if not (image_url.startswith('http://') or image_url.startswith('https://')):
+                            image_url = None
+                    
                     all_news.append({
                         'title': entry.title.strip(),
                         'link': entry.link,
+                        'summary': summary,
+                        'image_url': image_url,
                         'published': published.isoformat(),
                         'source': source_name,
                         'source_weight': config['weight_multiplier']
@@ -183,34 +286,47 @@ def save_published(published):
 
 def format_telegram_message(news_item):
     """Форматируем сообщение для Telegram"""
-    import html
     
-    emoji_map = {
-        'CRITICAL': '🚨',
-        'HIGH': '🔥',
-        'MARKET_MOVE': '📈',
-        'MEDIUM': '📰'
+    # Динамические headers по категориям
+    header_map = {
+        'CRITICAL': '🚨 BREAKING NEWS',
+        'HIGH': '🔥 MARKET ALERT',
+        'MARKET_MOVE': '📈 PRICE ALERT',
+        'MEDIUM': '📰 CRYPTO UPDATE'
     }
     
-    # Выбираем главную категорию
+    # Выбираем header
     main_category = news_item['categories'][0] if news_item['categories'] else 'MEDIUM'
-    emoji = emoji_map.get(main_category, '📰')
+    header = header_map.get(main_category, '📰 CRYPTO UPDATE')
     
-    # Экранируем HTML символы в заголовке
+    # Экранируем HTML символы в заголовке и summary
     safe_title = html.escape(news_item['title'])
+    safe_summary = html.escape(news_item.get('summary', ''))
     
-    # Обрезаем длинный заголовок если нужно (Telegram лимит 4096 символов)
-    if len(safe_title) > 250:
-        safe_title = safe_title[:247] + '...'
+    # Обрезаем длинный заголовок если нужно
+    if len(safe_title) > 200:
+        safe_title = safe_title[:197] + '...'
     
-    # Делаем заголовок кликабельным (ссылка спрятана, но preview работает)
-    message = f"{emoji} <a href=\"{news_item['link']}\">{safe_title}</a>\n\n"
+    # Формируем сообщение
+    message = f"{header}\n\n"
+    message += f"<b>{safe_title}</b>\n\n"
+    
+    # Добавляем summary если есть
+    if safe_summary:
+        message += f"{safe_summary}\n\n"
+    
     message += f"📊 Score: {news_item['score']} | 🏷 {', '.join(news_item['categories'])}\n"
     message += f"📅 {news_item['source'].upper()}"
     
-    # Финальная проверка длины (на всякий случай)
-    if len(message) > 4096:
-        message = message[:4090] + '...'
+    # Финальная проверка длины (для caption лимит 1024 символа)
+    if len(message) > 1024:
+        # Обрезаем по последнему пробелу чтобы не резать слово
+        message = message[:1020]
+        last_space = message.rfind(' ')
+        if last_space > 950:  # Не обрезаем слишком много
+            message = message[:last_space] + '...'
+        else:
+            message = message + '...'
     
     return message
 
@@ -226,7 +342,6 @@ def send_to_telegram(news_items):
         print("❌ Telegram credentials not found")
         return []
     
-    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     published_links = []
     
     for i, item in enumerate(news_items):
@@ -234,16 +349,36 @@ def send_to_telegram(news_items):
         if i > 0:
             time.sleep(1)  # 1 секунда между сообщениями
         
-        message = format_telegram_message(item)
+        caption = format_telegram_message(item)
+        image_url = item.get('image_url')
         
-        payload = {
-            'chat_id': channel_id,
-            'text': message,
-            'parse_mode': 'HTML',
-            'disable_web_page_preview': False
-        }
+        # Валидация image_url
+        if image_url:
+            image_url = image_url.strip()
+            # Проверяем что это валидный URL
+            if not image_url or not (image_url.startswith('http://') or image_url.startswith('https://')):
+                image_url = None
         
         try:
+            # Если есть картинка - отправляем через sendPhoto
+            if image_url:
+                url = f"https://api.telegram.org/bot{bot_token}/sendPhoto"
+                payload = {
+                    'chat_id': channel_id,
+                    'photo': image_url,
+                    'caption': caption,
+                    'parse_mode': 'HTML'
+                }
+            else:
+                # Если нет картинки - обычное текстовое сообщение
+                url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+                payload = {
+                    'chat_id': channel_id,
+                    'text': caption,
+                    'parse_mode': 'HTML',
+                    'disable_web_page_preview': True
+                }
+            
             response = requests.post(url, json=payload, timeout=10)
             
             if response.status_code == 200:
@@ -264,6 +399,28 @@ def send_to_telegram(news_items):
                     print(f"✓ Published (retry): {item['title'][:50]}...")
                 else:
                     print(f"✗ Failed after retry: {response.text}")
+            elif response.status_code == 400 and image_url:
+                # Проверяем что ошибка связана с картинкой
+                error_text = response.text.lower()
+                if any(word in error_text for word in ['photo', 'image', 'media', 'file']):
+                    # Точно проблема с картинкой - пробуем без неё
+                    print(f"⚠ Image failed, retrying without image...")
+                    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+                    payload = {
+                        'chat_id': channel_id,
+                        'text': caption,
+                        'parse_mode': 'HTML',
+                        'disable_web_page_preview': True
+                    }
+                    response = requests.post(url, json=payload, timeout=10)
+                    if response.status_code == 200:
+                        published_links.append(item['link'])
+                        print(f"✓ Published (without image): {item['title'][:50]}...")
+                    else:
+                        print(f"✗ Failed: {response.text[:100]}")
+                else:
+                    # Ошибка не связана с картинкой
+                    print(f"✗ Failed to publish (status 400): {response.text[:100]}")
             else:
                 print(f"✗ Failed to publish (status {response.status_code}): {response.text[:100]}")
                 
