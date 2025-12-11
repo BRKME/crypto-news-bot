@@ -47,33 +47,3 @@ jobs:
         else
           echo "No changes to commit"
         fi
-```
-
----
-
-## 🚀 После исправления:
-
-1. **Запусти workflow снова:**
-   - Actions → Crypto News Bot → Run workflow
-
-2. **Смотри логи - должно быть:**
-```
-   ✅ [main 850740e] 📰 Update published news [skip ci]
-   ✅ Already up to date.
-   ✅ To https://github.com/BRKME/crypto-news-bot.git  ← Push успешный!
-```
-
-3. **Проверь файл `published_news.json`:**
-   - Он должен обновиться в репозитории
-   - Будет новый commit от github-actions[bot]
-
----
-
-## 📋 Чек-лист:
-```
-☐ Settings → Actions → General
-☐ Workflow permissions → Read and write permissions
-☐ Галочка: Allow GitHub Actions to create and approve pull requests
-☐ Save
-☐ Запустить workflow снова
-☐ Проверить что push прошел успешно
