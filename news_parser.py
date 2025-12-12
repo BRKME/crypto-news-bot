@@ -8,7 +8,7 @@ import os
 import re
 import html
 from html.parser import HTMLParser
-from news_config import IMPORTANCE_RULES, EXCLUDE_KEYWORDS, MIN_IMPORTANCE_SCORE, RSS_SOURCES, SIMILARITY_THRESHOLD, SOURCE_PRIORITY, STOCK_MARKET_THRESHOLD
+from news_config import IMPORTANCE_RULES, EXCLUDE_KEYWORDS, MIN_IMPORTANCE_SCORE, RSS_SOURCES, SOURCE_PRIORITY, STOCK_MARKET_THRESHOLD, PUBLISHED_SIMILARITY_THRESHOLD, BATCH_SIMILARITY_THRESHOLD
 
 
 # HTML Stripper для очистки summary от тегов
@@ -221,7 +221,7 @@ def calculate_importance(news_item):
     return round(score), matched_categories
 
 
-def titles_are_similar(title1, title2):
+def titles_are_similar(title1, title2, threshold=0.5):
     """Проверяем схожесть заголовков по перекрытию слов (Jaccard similarity)"""
     # Извлекаем слова
     words1 = set(re.sub(r'[^\w\s]', '', title1.lower()).split())
@@ -240,7 +240,7 @@ def titles_are_similar(title1, title2):
     union = len(words1 | words2)
     similarity = intersection / union if union > 0 else 0
     
-    return similarity >= SIMILARITY_THRESHOLD
+    return similarity >= threshold
 
 
 def filter_duplicates(news_items):
@@ -250,9 +250,9 @@ def filter_duplicates(news_items):
     for item in news_items:
         duplicate_index = -1
         
-        # Сравниваем с уже добавленными новостями
+        # Сравниваем с уже добавленными новостями (средний порог)
         for i, existing in enumerate(unique_news):
-            if titles_are_similar(item['title'], existing['title']):
+            if titles_are_similar(item['title'], existing['title'], BATCH_SIMILARITY_THRESHOLD):
                 duplicate_index = i
                 break
         
@@ -292,10 +292,10 @@ def filter_already_published(news_items, published):
             print(f"  ⚠ Already published (link): {item['title'][:50]}...")
             continue
         
-        # Проверяем по заголовку (медленнее, но ловит разные источники)
+        # Проверяем по заголовку (строгий порог - ловим все похожие)
         is_duplicate = False
         for pub_title in published_titles:
-            if titles_are_similar(item['title'], pub_title):
+            if titles_are_similar(item['title'], pub_title, PUBLISHED_SIMILARITY_THRESHOLD):
                 print(f"  ⚠ Already published (similar title): {item['title'][:50]}...")
                 is_duplicate = True
                 break
