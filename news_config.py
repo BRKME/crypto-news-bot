@@ -66,11 +66,19 @@ EXCLUDE_KEYWORDS = [
     'how to', 'guide', 'tutorial',
     'price prediction', 'forecast',
     'meme coin', 'shitcoin', 'dog coin',
-    'airdrop', 'giveaway', 'sponsored'
+    'airdrop', 'giveaway', 'sponsored',
+    # Personal finance / lifestyle stories
+    'my friend', 'retired with', 'secret to',
+    'personal story', 'what i learned',
+    'immigrant', 'walmart', 'minimum wage',
+    'her secret', 'his secret', 'their secret'
 ]
 
 # Минимальный порог для публикации
 MIN_IMPORTANCE_SCORE = 25
+
+# Более высокий порог для stock market источников (фильтруем lifestyle stories)
+STOCK_MARKET_THRESHOLD = 80  # Только топ новости
 
 # Порог схожести для дедупликации (0.0-1.0)
 # 0.4 = 40% общих слов → считается дубликатом (более агрессивная фильтрация)
