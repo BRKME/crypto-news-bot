@@ -5,15 +5,29 @@ IMPORTANCE_RULES = {
     'STOCK_CRITICAL': {
         'weight': 150,
         'keywords': [
-            'fed raises', 'fed cuts', 'fed rate decision', 'fomc',
-            'dow plunges', 'dow surges', 's&p plunges', 's&p surges',
-            'nasdaq plunges', 'nasdaq surges',
+            # Fed & Monetary Policy (ONLY)
+            'fed raises', 'fed cuts', 'fed rate decision', 'fomc decision',
+            'powell says', 'federal reserve announces',
+            
+            # Major Market Moves (ONLY broad indices)
+            'dow plunges', 'dow surges', 'dow crashes',
+            's&p plunges', 's&p surges', 's&p crashes', 
+            'nasdaq plunges', 'nasdaq surges', 'nasdaq crashes',
             'market crash', 'circuit breaker', 'trading halted',
-            'bankruptcy filed', 'chapter 11',
-            'acquires for $', 'acquisition $',
-            'treasury yields', 'bond market',
-            'unemployment rate', 'jobs report',
-            'inflation data', 'cpi report', 'gdp growth'
+            'black monday', 'market meltdown',
+            
+            # Critical Economic Data (ONLY)
+            'unemployment rate', 'jobs report shock',
+            'inflation shock', 'cpi shock', 'gdp shock',
+            'recession declared', 'recession confirmed',
+            
+            # Treasury/Bond Market (ONLY major events)
+            'treasury yields surge', 'treasury yields plunge',
+            'bond market crisis', 'bond market turmoil',
+            
+            # Global Crisis Events (ONLY)
+            'financial crisis', 'banking crisis', 'debt crisis',
+            'government shutdown', 'debt ceiling crisis'
         ]
     },
     'CRITICAL': {
@@ -71,14 +85,24 @@ EXCLUDE_KEYWORDS = [
     'my friend', 'retired with', 'secret to',
     'personal story', 'what i learned',
     'immigrant', 'walmart', 'minimum wage',
-    'her secret', 'his secret', 'their secret'
+    'her secret', 'his secret', 'their secret',
+    'my husband', 'my wife', 'we are in our',
+    'where are we', 'should i', 'should we',
+    'mortgage is paid', 'we have $', 'our home',
+    'vulnerable', 'iras', 'downsizing',
+    # Company-specific news (exclude for stock sources)
+    'ceo says', 'cfo says', 'earnings beat', 'earnings miss',
+    'quarterly results', 'stock buyback', 'dividend increase',
+    'merger with', 'acquires', 'acquisition',
+    'ipo', 'going public', 'stock split'
 ]
 
 # Минимальный порог для публикации
 MIN_IMPORTANCE_SCORE = 25
 
-# Более высокий порог для stock market источников (фильтруем lifestyle stories)
-STOCK_MARKET_THRESHOLD = 80  # Только топ новости
+# Более высокий порог для stock market источников
+# Только супер критичные broad market события
+STOCK_MARKET_THRESHOLD = 120  # CRITICAL events only (fed, crashes, major indices)
 
 # Порог схожести для дедупликации (0.0-1.0)
 # Используем разные пороги для разных проверок:
