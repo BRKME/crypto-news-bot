@@ -583,7 +583,7 @@ def format_telegram_message(news_item):
     # Добавляем Alpha Take только если есть место
     alpha_take = news_item.get('alpha_take')
     if alpha_take:
-        alpha_section = f"💡 <b>Alpha Take:</b>\n{html.escape(alpha_take)}"
+        alpha_section = f"◼ <b>Alpha Take:</b>\n{html.escape(alpha_take)}"
         
         # Проверяем что Alpha Take полностью поместится
         if len(message) + len(alpha_section) <= 1024:
