@@ -1,12 +1,4 @@
 {
-  "https://www.theblock.co/post/382690/bitwise-cio-bitcoin-break-4-year-cycle-new-all-time-highs-2026?utm_source=rss&utm_medium=rss": {
-    "timestamp": "2025-12-16T11:01:53.440822",
-    "title": "Bitwise CIO says bitcoin will break 4-year cycle and set new all-time highs in 2026"
-  },
-  "https://www.coindesk.com/policy/2025/12/16/crypto-bank-custodia-files-petition-for-a-rehearing-by-all-appellate-judges": {
-    "timestamp": "2025-12-16T12:19:13.475515",
-    "title": "Crypto bank Custodia files petition for a rehearing by all appellate judges"
-  },
   "https://www.coindesk.com/markets/2025/12/16/u-s-added-64-000-jobs-in-november-with-unemployment-rate-jumping-to-4-6": {
     "timestamp": "2025-12-16T13:52:55.131085",
     "title": "U.S. added 64,000 jobs in November, with unemployment rate jumping to four-year high of 4.6%"
@@ -178,5 +170,9 @@
   "https://finance.yahoo.com/news/vanke-may-adopt-familiar-playbook-090026626.html": {
     "timestamp": "2025-12-23T09:43:27.811228",
     "title": "Vanke may adopt a familiar playbook in China to tackle debt crisis, say analysts"
+  },
+  "https://finance.yahoo.com/news/ipsen-outlays-1bn-china-based-125352146.html": {
+    "timestamp": "2025-12-23T13:08:28.320503",
+    "title": "Ipsen outlays $1bn for China-based Simcere’s preclinical ADC"
   }
 }
