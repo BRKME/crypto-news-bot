@@ -1,16 +1,4 @@
 {
-  "https://www.coindesk.com/markets/2025/12/16/u-s-added-64-000-jobs-in-november-with-unemployment-rate-jumping-to-4-6": {
-    "timestamp": "2025-12-16T13:52:55.131085",
-    "title": "U.S. added 64,000 jobs in November, with unemployment rate jumping to four-year high of 4.6%"
-  },
-  "https://decrypt.co/352533/bitcoin-ethereum-etfs-shed-582m-in-a-day-as-institutions-trim-risk": {
-    "timestamp": "2025-12-16T15:12:27.279979",
-    "title": "Bitcoin, Ethereum ETFs Shed $582M in a Day as Institutions Trim Risk"
-  },
-  "https://decrypt.co/352532/bitcoin-ethereum-wobble-us-highest-unemployment-rate-since-2021": {
-    "timestamp": "2025-12-16T15:41:53.078008",
-    "title": "Bitcoin and Ethereum Wobble as US Reports Highest Unemployment Rate Since 2021"
-  },
   "https://www.theblock.co/post/382871/the-daily-bitwise-predicts-bitcoin-all-time-highs-in-2026-ark-invest-buys-the-dip-spot-xrp-etfs-top-1b-in-cumulative-inflows-and-more?utm_source=rss&utm_medium=rss": {
     "timestamp": "2025-12-16T19:11:48.976936",
     "title": "The Daily: Bitwise predicts bitcoin all-time highs in 2026, Ark Invest buys the dip, spot XRP ETFs top $1B in cumulative inflows, and more"
@@ -182,5 +170,9 @@
   "https://www.coindesk.com/business/2025/12/23/amplify-etfs-targeting-stablecoin-and-tokenization-sectors-open-for-trade": {
     "timestamp": "2025-12-23T13:50:35.871657",
     "title": "Amplify ETFs targeting stablecoin and tokenization sectors open for trade"
+  },
+  "https://www.coindesk.com/business/2025/12/23/crypto-exchange-bybit-to-restrict-access-for-japanese-users-as-regulatory-pressure-mounts": {
+    "timestamp": "2025-12-23T17:11:13.797639",
+    "title": "Crypto exchange Bybit to restrict access for Japanese users as regulatory pressure mounts"
   }
 }
