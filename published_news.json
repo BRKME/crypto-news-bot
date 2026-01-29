@@ -1,15 +1,5 @@
 [
   {
-    "title": "Vivek Ramaswamy’s Strive looks to raise $150 million in secondary stock offering",
-    "link": "https://www.theblock.co/post/386605/strive-secondary-stock-offering?utm_source=rss&utm_medium=rss",
-    "published_date": "2026-01-22T00:47:25.327654"
-  },
-  {
-    "title": "Wall Street analyst defends Michael Saylor's Strategy after stock trades 64% below his lofty price target",
-    "link": "https://www.coindesk.com/markets/2026/01/21/strategy-s-usd2-1b-bitcoin-bet-shows-why-it-doesn-t-need-a-premium-to-win",
-    "published_date": "2026-01-22T02:58:00.431683"
-  },
-  {
     "title": "Saga pauses EVM chain following smart contract exploit",
     "link": "https://www.theblock.co/post/386638/sagaevm-suffers-exploit?utm_source=rss&utm_medium=rss",
     "published_date": "2026-01-22T05:01:47.209588"
@@ -323,5 +313,10 @@
     "title": "Wall Street giants push back on exemptions for tokenized securities in SEC meeting",
     "link": "https://www.coindesk.com/policy/2026/01/28/wall-street-giants-push-back-on-exemptions-for-tokenized-securities-in-sec-meeting",
     "published_date": "2026-01-28T20:15:24.966417"
+  },
+  {
+    "title": "SEC clarifies rules for tokenized securities, placing asset class under federal securities laws",
+    "link": "https://www.theblock.co/post/387534/sec-clarifies-rules-tokenized-securities?utm_source=rss&utm_medium=rss",
+    "published_date": "2026-01-29T03:20:52.096783"
   }
 ]
