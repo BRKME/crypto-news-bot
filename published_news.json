@@ -1,15 +1,5 @@
 [
   {
-    "title": "Dow Jones Futures Loom: New Trump Tariff Threat, Government Shutdown, Earnings Wave In Focus",
-    "link": "https://www.investors.com/market-trend/stock-market-today/dow-jones-futures-trump-100-canada-tariff-tesla-microsoft-meta-apple-earnings/?src=A00220&yptr=yahoo",
-    "published_date": "2026-01-25T16:11:13.752183"
-  },
-  {
-    "title": "Bitcoin slips below $88,000 amid government shutdown risk and ahead of Fed's first rate decision of the year",
-    "link": "https://www.coindesk.com/markets/2026/01/25/bitcoin-slips-below-usd88-000-ahead-of-fed-week-and-big-tech-earnings",
-    "published_date": "2026-01-25T18:49:13.503628"
-  },
-  {
     "title": "How a 'perpetual’ stock trick could solve Michael Saylor’s $8 billion debt problem",
     "link": "https://www.coindesk.com/markets/2026/01/25/strive-s-preferred-equity-blueprint-for-strategy-s-usd8-billion-convertible-debt-overhang",
     "published_date": "2026-01-25T22:09:16.163766"
@@ -388,5 +378,10 @@
     "title": "Quantum threat gets real: Ethereum Foundation prioritizes security with leanVM and PQ signatures",
     "link": "https://www.coindesk.com/tech/2026/02/01/quantum-threat-gets-real-ethereum-foundation-prioritizes-security-with-leanvm-and-pq-signatures",
     "published_date": "2026-02-01T15:13:03.951422"
+  },
+  {
+    "title": "CrossCurve bridge exploited for approximately $3 million across multiple chains via spoofed messages",
+    "link": "https://www.theblock.co/post/387939/crosscurve-bridge-exploited-for-approximately-3-million-across-multiple-chains-via-spoofed-messages?utm_source=rss&utm_medium=rss",
+    "published_date": "2026-02-01T21:42:21.489366"
   }
 ]
