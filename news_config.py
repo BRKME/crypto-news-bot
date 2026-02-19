@@ -99,6 +99,35 @@ EXCLUDE_KEYWORDS = [
     'goes private', 'going private', 'maker files'
 ]
 
+# Паттерны неполных/кликбейт заголовков (регулярки)
+# Заголовки, заканчивающиеся на вопрос или двоеточие без смысла
+CLICKBAIT_PATTERNS = [
+    r'\?$',                          # Заканчивается на вопрос
+    r':\s*$',                        # Заканчивается на двоеточие
+    r'[Ww]hy\s.*\?',                 # "Why X?" questions
+    r'[Ww]hat\s.*\?',                # "What X?" questions  
+    r'[Hh]ow\s.*\?',                 # "How X?" questions
+    r'[Ii]s\s.*\?',                  # "Is X?" questions
+    r'[Cc]an\s.*\?',                 # "Can X?" questions
+    r'[Ww]ill\s.*\?',                # "Will X?" questions
+    r'[Ss]hould\s.*\?',              # "Should X?" questions
+    r'[Hh]ere\'?s [Ww]hy',           # "Here's Why" clickbait
+    r'[Hh]ere\'?s [Ww]hat',          # "Here's What" clickbait
+    r'[Yy]ou [Ww]on\'?t [Bb]elieve', # Clickbait
+    r'[Tt]his [Ii]s [Ww]hy',         # "This is why" 
+    r'[Ff]ind [Oo]ut',               # "Find out"
+    r'\.\.\.$',                      # Заканчивается на ...
+]
+
+# Разрешенные хэштеги (короткие, понятные)
+ALLOWED_HASHTAGS = [
+    '#Bitcoin', '#BTC', '#Ethereum', '#ETH', '#Crypto',
+    '#SEC', '#ETF', '#DeFi', '#NFT', '#Regulation',
+    '#BlackRock', '#Fidelity', '#Grayscale', '#Coinbase', '#Binance',
+    '#Fed', '#Markets', '#Breaking', '#Bullish', '#Bearish',
+    '#Altcoins', '#Trading', '#Institutional', '#Adoption'
+]
+
 # Минимальный порог для публикации
 MIN_IMPORTANCE_SCORE = 60  # Только важные новости
 

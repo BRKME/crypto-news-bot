@@ -30,7 +30,9 @@ from news_config import (
     MIN_IMPORTANCE_SCORE,
     STOCK_MARKET_THRESHOLD,
     SOURCE_PRIORITY,
-    TWITTER_ENABLED
+    TWITTER_ENABLED,
+    CLICKBAIT_PATTERNS,
+    ALLOWED_HASHTAGS
 )
 
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
@@ -197,12 +199,19 @@ def is_duplicate(news_item, published):
 def calculate_importance(news_item):
     """Рассчитываем важность новости"""
     title = news_item['title'].lower()
+    original_title = news_item['title']  # Для паттернов с учетом регистра
     score = 0
     matched_categories = []
     
     for exclude in EXCLUDE_KEYWORDS:
         if exclude in title:
             return 0, ['EXCLUDED']
+    
+    # Фильтруем кликбейт/неполные заголовки
+    for pattern in CLICKBAIT_PATTERNS:
+        if re.search(pattern, original_title):
+            print(f"  ⚠️ Clickbait filtered: {original_title[:50]}...")
+            return 0, ['CLICKBAIT']
     
     for category, rules in IMPORTANCE_RULES.items():
         category_matched = False
@@ -317,39 +326,38 @@ def get_alpha_take(news_item):
         
         system_prompt = """You are a crypto market analyst writing for regular investors.
 
-TASK: Analyze the news and provide structured output.
+TASK: Analyze the news and provide VALUE-ADDED insight, NOT a summary of the headline.
 
 OUTPUT FORMAT (MANDATORY):
-ALPHA_TAKE: [One clear sentence explaining what this means for crypto prices. Use simple language. Be specific about price impact - will it likely push prices up, down, or keep them flat? No jargon.]
+ALPHA_TAKE: [One sentence with NEW INSIGHT not in the headline. Explain the IMPLICATION or CONSEQUENCE. What does this MEAN for investors? Don't repeat facts from the title.]
 
 CONTEXT: [Strength] [Sentiment]
-Sentiment options: Neutral | Negative | Positive | Critical | Hype
-Strength options: Low | Medium | High | Moderate | Strong
-Example: "Strong positive" or "Moderate negative"
+Sentiment options: Neutral | Negative | Positive
+Strength options: Low | Medium | Strong
+Example: "Strong positive" or "Medium negative"
 
-HASHTAGS: [2-3 relevant hashtags without emojis]
+HASHTAGS: [Exactly 2 short hashtags from this list ONLY: #Bitcoin #BTC #Ethereum #ETH #Crypto #SEC #ETF #DeFi #NFT #Regulation #BlackRock #Fidelity #Grayscale #Coinbase #Binance #Fed #Markets #Breaking #Bullish #Bearish #Altcoins #Trading #Institutional #Adoption]
 
-RULES:
-- Alpha Take must be simple and clear for anyone to understand
-- Directly state the expected price impact
-- No abstract concepts or investor jargon
-- No phrases like "positioning incentives" or "liquidity sensitivity"
-- Context must be exactly "[Strength] [Sentiment]"
-- Hashtags must be 2-3 tags only
+CRITICAL RULES:
+- Alpha Take must ADD VALUE, not summarize the headline
+- Never repeat the company name or action from headline
+- Focus on: WHY it matters, WHAT happens next, WHO benefits/loses
+- Context must be exactly "[Strength] [Sentiment]" - nothing else
+- Hashtags: EXACTLY 2 tags, short, from the allowed list only
 
-GOOD EXAMPLES:
-ALPHA_TAKE: BlackRock hiring 7 crypto specialists signals major institutions are building teams for long-term investment, which typically brings billions in new buying and pushes prices higher.
-CONTEXT: Strong positive
-HASHTAGS: #Institutional #Bullish #BlackRock
+GOOD Alpha Take examples:
+Headline: "BlackRock files for Bitcoin ETF"
+BAD: "BlackRock filing for Bitcoin ETF signals institutional interest" (just restates headline)
+GOOD: "If approved, this opens the door for pension funds and 401k investments into crypto, potentially bringing billions in new capital."
 
-ALPHA_TAKE: SEC delaying ETF decision creates uncertainty and typically causes short-term price drops as traders exit positions until clarity returns.
-CONTEXT: Moderate negative
-HASHTAGS: #Regulatory #SEC #ETF
+Headline: "SEC delays ETF decision"
+BAD: "The SEC delaying the ETF decision creates uncertainty" (restates)
+GOOD: "Historically, delays lead to 5-10% dips as traders exit; buying opportunity often follows within 2 weeks."
 
-BAD EXAMPLES (avoid):
-- "This alters positioning incentives" (too abstract)
-- "Increases sensitivity to liquidity" (jargon)
-- "May impact markets" (vague)"""
+Headline: "Bitcoin hits $70,000"
+BAD: "Bitcoin reaching $70,000 shows strong momentum" (restates)
+GOOD: "Last time BTC broke a major round number, it continued 15-20% higher before consolidating."
+"""
 
         user_prompt = f"""News Title: {news_item['title']}
 
@@ -414,15 +422,8 @@ Generate Alpha Take, Context, and Hashtags."""
 def format_telegram_message(news_item):
     """Форматируем сообщение для Telegram"""
     
-    header_map = {
-        'CRITICAL': '🚨 BREAKING NEWS',
-        'HIGH': '🔥 MARKET ALERT',
-        'MARKET_MOVE': '📈 PRICE ALERT',
-        'MEDIUM': '📰 CRYPTO UPDATE'
-    }
-    
-    main_category = news_item['categories'][0] if news_item['categories'] else 'MEDIUM'
-    header = header_map.get(main_category, '📰 CRYPTO UPDATE')
+    # Единый заголовок для всех новостей
+    header = '🚨 BREAKING NEWS'
     
     safe_title = html.escape(news_item['title'])
     safe_summary = html.escape(news_item.get('summary', ''))
@@ -430,26 +431,47 @@ def format_telegram_message(news_item):
     if len(safe_title) > 200:
         safe_title = safe_title[:197] + '...'
     
-    message = f"{header}\n\n"
+    # Собираем хэштеги (макс 2, только короткие из разрешенного списка)
+    hashtags_str = ""
+    alpha_take_data = news_item.get('alpha_take_data')
+    if alpha_take_data:
+        raw_hashtags = alpha_take_data.get('hashtags', '')
+        if raw_hashtags:
+            # Извлекаем хэштеги
+            tags = re.findall(r'#\w+', raw_hashtags)
+            # Фильтруем: только короткие (до 15 символов) и из разрешенного списка
+            filtered_tags = []
+            for tag in tags:
+                if len(tag) <= 15 and tag in ALLOWED_HASHTAGS:
+                    filtered_tags.append(tag)
+                elif len(tag) <= 12:  # Короткие теги допускаем даже не из списка
+                    filtered_tags.append(tag)
+            # Берем максимум 2
+            filtered_tags = filtered_tags[:2]
+            if filtered_tags:
+                hashtags_str = ' '.join(filtered_tags)
+    
+    # Формируем сообщение: хэштеги вверху
+    message = ""
+    if hashtags_str:
+        message += f"{hashtags_str}\n\n"
+    
+    message += f"{header}\n\n"
     message += f"{safe_title}\n\n"
     
-    if safe_summary:
-        message += f"{safe_summary}\n\n"
-    
-    alpha_take_data = news_item.get('alpha_take_data')
     if alpha_take_data:
         alpha_take = alpha_take_data.get('alpha_take')
         context = alpha_take_data.get('context')
-        hashtags = alpha_take_data.get('hashtags')
         
         if alpha_take:
             message += f"◼️ <b>Alpha Take:</b>\n{html.escape(alpha_take)}\n\n"
         
         if context:
-            message += f"<i>Context: {html.escape(context)}</i>\n\n"
-        
-        if hashtags:
-            message += f"{html.escape(hashtags)}"
+            # Нормализуем context
+            context_clean = context.strip()
+            # Убираем лишние слова, оставляем только Strength + Sentiment
+            context_clean = re.sub(r'[Cc]ontext:?\s*', '', context_clean)
+            message += f"<i>Context: {html.escape(context_clean)}</i>"
     
     if len(message) > 1024:
         message = message[:1020]
@@ -462,15 +484,7 @@ def format_telegram_message(news_item):
 
 def format_twitter_message(news_item):
     """Форматируем tweet"""
-    header_map = {
-        'CRITICAL': '🚨',
-        'HIGH': '🔥',
-        'MARKET_MOVE': '📈',
-        'MEDIUM': '📰'
-    }
-    
-    main_category = news_item['categories'][0] if news_item['categories'] else 'MEDIUM'
-    header = header_map.get(main_category, '📰')
+    header = '🚨'  # Единый для всех
     
     title = news_item['title']
     
