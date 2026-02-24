@@ -1,10 +1,5 @@
 [
   {
-    "title": "Michael Saylor’s Strategy buys 2,486 bitcoin for $168 million as total holdings reach 717,131 BTC",
-    "link": "https://www.theblock.co/post/390010/michael-saylor-strategy-latest-bitcoin-acquisition?utm_source=rss&utm_medium=rss",
-    "published_date": "2026-02-17T14:41:08.580662"
-  },
-  {
     "title": "CFTC's Selig opens legal dispute against states getting in way of prediction markets",
     "link": "https://www.coindesk.com/policy/2026/02/17/cftc-s-selig-opens-legal-dispute-against-states-getting-in-way-of-prediction-markets",
     "published_date": "2026-02-17T16:41:56.356491"
@@ -268,5 +263,15 @@
     "title": "Jamie Dimon warns markets resemble pre-financial crisis era: 'I see a couple of people doing some dumb things'",
     "link": "https://finance.yahoo.com/news/jamie-dimon-warns-markets-resemble-pre-financial-crisis-era-i-see-a-couple-of-people-doing-some-dumb-things-133719344.html",
     "published_date": "2026-02-24T14:02:15.527523"
+  },
+  {
+    "title": "Wall Street’s big blockchain win: SEC gives WisdomTree the green light for instant, around-the-clock trading",
+    "link": "https://www.coindesk.com/business/2026/02/24/sec-approves-wisdomtree-plan-for-24-7-trading-of-tokenized-money-market-fund",
+    "published_date": "2026-02-24T15:13:58.143664"
+  },
+  {
+    "title": "Mark Zuckerberg's Meta is planning stablecoin comeback in the second half of this year",
+    "link": "https://www.coindesk.com/business/2026/02/24/mark-zuckerberg-s-meta-is-planning-stablecoin-comeback-in-the-second-half-of-this-year",
+    "published_date": "2026-02-24T15:13:59.335253"
   }
 ]
