@@ -1,15 +1,5 @@
 [
   {
-    "title": "Wall Street’s big blockchain win: SEC gives WisdomTree the green light for instant, around-the-clock trading",
-    "link": "https://www.coindesk.com/business/2026/02/24/sec-approves-wisdomtree-plan-for-24-7-trading-of-tokenized-money-market-fund",
-    "published_date": "2026-02-24T15:13:58.143664"
-  },
-  {
-    "title": "Mark Zuckerberg's Meta is planning stablecoin comeback in the second half of this year",
-    "link": "https://www.coindesk.com/business/2026/02/24/mark-zuckerberg-s-meta-is-planning-stablecoin-comeback-in-the-second-half-of-this-year",
-    "published_date": "2026-02-24T15:13:59.335253"
-  },
-  {
     "title": "SEC grants WisdomTree exemptive relief for 24/7 trading of regulated tokenized mutual fund",
     "link": "https://www.theblock.co/post/391043/sec-grants-wisdomtree-exemptive-relief-for-24-7-trading-of-regulated-tokenized-mutual-fund?utm_source=rss&utm_medium=rss",
     "published_date": "2026-02-24T16:32:34.977981"
@@ -203,5 +193,10 @@
     "title": "Ondo Finance tokenized stocks platform on Binance wins regulatory approval in Abu Dhabi",
     "link": "https://www.coindesk.com/business/2026/03/03/ondo-finance-tokenized-stocks-platform-on-binance-wins-regulatory-approval-in-abu-dhabi",
     "published_date": "2026-03-03T14:34:41.398530"
+  },
+  {
+    "title": "‘Stay tuned’: CFTC signals rulemaking push on prediction markets",
+    "link": "https://www.theblock.co/post/392028/stay-tuned-cftc-signals-rulemaking-push-on-prediction-markets?utm_source=rss&utm_medium=rss",
+    "published_date": "2026-03-03T15:35:50.863041"
   }
 ]
