@@ -1,15 +1,5 @@
 [
   {
-    "title": "Decibel goes live on Aptos with a $58 million war chest and a secret weapon from Stripe's Bridge",
-    "link": "https://www.coindesk.com/business/2026/02/25/perpetuals-exchange-decibel-goes-live-on-aptos-following-usd50-million-in-pre-deposits",
-    "published_date": "2026-02-26T14:01:02.100183"
-  },
-  {
-    "title": "Ethereum Foundation drops most ambitious roadmap in years, targets finality in seconds by 2029",
-    "link": "https://www.coindesk.com/tech/2026/02/26/ethereum-foundation-drops-most-ambitious-roadmap-in-years-targets-finality-in-seconds-by-2029",
-    "published_date": "2026-02-26T14:01:03.032336"
-  },
-  {
     "title": "Bitcoin briefly crashes below $48,000 on upstart exchange despite crypto rally",
     "link": "https://www.coindesk.com/markets/2026/02/26/bitcoin-briefly-crashes-below-usd48-000-on-upstart-exchange-despite-crypto-rally",
     "published_date": "2026-02-26T16:11:27.846317"
@@ -213,5 +203,10 @@
     "title": "Ethereum ETFs Draw In $169M, Highest Level in Two Months",
     "link": "https://decrypt.co/360097/ethereum-etfs-draw-in-169m-highest-level-in-two-months",
     "published_date": "2026-03-05T13:52:57.367355"
+  },
+  {
+    "title": "Aave Labs outlines layered security plan for V4 after $1.5 million audit program",
+    "link": "https://www.theblock.co/post/392410/aave-labs-outlines-layered-security-plan-for-v4-after-1-5-million-audit-program?utm_source=rss&utm_medium=rss",
+    "published_date": "2026-03-05T14:35:34.210033"
   }
 ]
