@@ -152,12 +152,11 @@ BATCH_SIMILARITY_THRESHOLD = 0.5  # 50% общих слов = дубликат
 # Приоритет источников (1 = highest)
 # При дубликатах выбирается источник с меньшим номером
 SOURCE_PRIORITY = {
-    'theblock': 1,      # Highest - has summary
-    'coindesk': 2,
-    'yahoo_finance': 3, # Stock market + crypto
-    'marketwatch': 4,   # Stock market
-    'reuters': 5,       # Stock market
-    'decrypt': 6
+    'coindesk': 1,
+    'yahoo_finance': 2, # Stock market + crypto
+    'marketwatch': 3,   # Stock market
+    'reuters': 4,       # Stock market
+    'decrypt': 5
 }
 
 # Twitter Integration
@@ -169,11 +168,6 @@ RSS_SOURCES = {
         'url': 'https://www.coindesk.com/arc/outboundfeeds/rss/',
         'priority': 1,
         'weight_multiplier': 1.2  # Доверяем больше
-    },
-    'theblock': {
-        'url': 'https://www.theblock.co/rss.xml',
-        'priority': 1,
-        'weight_multiplier': 1.2
     },
     'decrypt': {
         'url': 'https://decrypt.co/feed',
