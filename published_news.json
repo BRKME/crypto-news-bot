@@ -1,15 +1,5 @@
 [
   {
-    "title": "Wall Street Banks Weigh Lawsuit Over Crypto Banking Charters",
-    "link": "https://decrypt.co/360524/wall-street-banks-weigh-lawsuit-over-crypto-banking-charters",
-    "published_date": "2026-03-10T06:32:50.384373"
-  },
-  {
-    "title": "Stablecoin market expands, bitcoin rallies as Iran war panic cools",
-    "link": "https://www.coindesk.com/daybook-us/2026/03/10/stablecoin-market-expands-bitcoin-rallies-as-iran-war-panic-cools",
-    "published_date": "2026-03-10T11:51:08.309432"
-  },
-  {
     "title": "Bitcoin Rises as Trump Amplifies Iran Threats, Fed Rate Cut Chances Fall Near Zero",
     "link": "https://decrypt.co/360556/bitcoin-rises-trump-iran-threats-fed-rate-cut-chances-near-zero",
     "published_date": "2026-03-10T15:46:32.086388"
@@ -138,5 +128,10 @@
     "title": "IBM Opens Quantum Hardware to Researchers as Bitcoin Security Threat Looms",
     "link": "https://decrypt.co/361286/ibm-opens-quantum-hardware-researchers-bitcoin-security-threat",
     "published_date": "2026-03-16T21:58:23.383506"
+  },
+  {
+    "title": "Phantom wins CFTC no-action relief, clearing path for crypto wallet access to regulated derivatives markets",
+    "link": "https://www.coindesk.com/policy/2026/03/17/phantom-wins-cftc-no-action-relief-clearing-path-for-crypto-wallet-access-to-regulated-derivatives-markets",
+    "published_date": "2026-03-17T15:34:07.485558"
   }
 ]
