@@ -1,10 +1,5 @@
 [
   {
-    "title": "SEC, CFTC end years of rivalry with deal that will mean combined crypto oversight",
-    "link": "https://www.coindesk.com/policy/2026/03/11/sec-cftc-end-years-of-rivalry-with-deal-that-will-mean-combined-crypto-oversight",
-    "published_date": "2026-03-11T23:14:05.612246"
-  },
-  {
     "title": "BlackRock debuts staked ether ETF as demand grows for yield in crypto funds",
     "link": "https://www.coindesk.com/markets/2026/03/12/blackrock-debuts-staked-ether-etf-as-demand-grows-for-yield-in-crypto-funds",
     "published_date": "2026-03-12T12:29:01.750078"
@@ -143,5 +138,10 @@
     "title": "SEC approves Nasdaq's move to support tokenized securities trading",
     "link": "https://www.coindesk.com/policy/2026/03/18/sec-approves-nasdaq-s-move-to-allow-tokenized-securities-trading",
     "published_date": "2026-03-18T20:59:45.060000"
+  },
+  {
+    "title": "Venus’ XVS token plunges 9% as exploit leaves protocol with bad debt",
+    "link": "https://www.coindesk.com/markets/2026/03/19/venus-xvs-token-plunges-9-as-exploit-leaves-protocol-with-bad-debt",
+    "published_date": "2026-03-19T11:54:03.789927"
   }
 ]
