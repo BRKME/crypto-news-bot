@@ -1,15 +1,5 @@
 [
   {
-    "title": "U.S. SEC issues first-ever definitions for what crypto assets are securities",
-    "link": "https://www.coindesk.com/policy/2026/03/17/u-s-sec-issues-first-ever-definitions-for-what-crypto-assets-are-securities",
-    "published_date": "2026-03-17T21:00:57.224480"
-  },
-  {
-    "title": "Bitcoin's progress above $75,000 elusive after SEC, CFTC crypto guidance",
-    "link": "https://www.coindesk.com/markets/2026/03/18/bitcoin-s-progress-above-usd75-000-elusive-after-sec-cftc-crypto-guidance",
-    "published_date": "2026-03-18T09:39:20.028972"
-  },
-  {
     "title": "Bitcoin ETFs' $1.2B Streak Hangs in Balance as FOMC Takes Center Stage",
     "link": "https://decrypt.co/361518/bitcoin-etfs-1-2b-streak-hangs-in-balance-as-fomc-takes-center-stage",
     "published_date": "2026-03-18T14:12:05.363525"
@@ -148,5 +138,10 @@
     "title": "BlackRock sees AI driving crypto’s next bull phase as altcoin interest fades",
     "link": "https://www.coindesk.com/business/2026/03/24/blackrock-flags-ai-as-crypto-s-next-big-use-case-not-token-boom",
     "published_date": "2026-03-24T20:28:31.082462"
+  },
+  {
+    "title": "Bitcoin ETFs Draw in $2.5B in a Month, Close to Erasing YTD Losses",
+    "link": "https://decrypt.co/362301/bitcoin-etfs-draw-in-2-5b-in-a-month-close-to-erasing-ytd-losses",
+    "published_date": "2026-03-25T14:08:13.628063"
   }
 ]
